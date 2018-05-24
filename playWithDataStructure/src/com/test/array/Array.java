@@ -108,12 +108,89 @@ public class Array {
 		return data[index];
 	}
 	
+	/**
+	 * 设置指定索引上的值
+	 * @param index
+	 * @param e
+	 */
 	public void set(int index, int e){
 		if(index < 0 || index >= this.size){
 			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
 		}
 		data[index] = e;
 	}
+	
+	/**
+	 * 是否包含某个元素
+	 * @param e
+	 * @return
+	 */
+	public boolean contains(int e){
+		for (int i : data) {
+			if(i == e){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 查找指定的值在数组中的索引，没有则返回-1
+	 * @param e
+	 * @return
+	 */
+	public int find(int e){
+		for (int i = 0; i < size; i++) {
+			if(data[i] == e){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	/**
+	 * 删除某个索引上的值
+	 * @param index
+	 */
+	public int remove(int index){
+		if(index < 0 || index >= this.size){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
+		}
+		int temp = data[index];
+		for (int i = index + 1; i < size; i++) {
+			data[i-1] = data[i];
+		}
+		size--;
+		return temp;
+	}
+	
+	/**
+	 * 从数组中删除第一个元素
+	 * @return
+	 */
+	public int removeFirst(){
+		return remove(0);
+	}
+	
+	/**
+	 * 从数组中删除最后一个元素
+	 * @return
+	 */
+	public int removeLast(){
+		return remove(size -1);
+	}
+	
+	/**
+	 * 从数组中删除指定元素
+	 * @param e
+	 */
+	public void removeElement(int e){
+		int index = find(e);
+		if(index != -1){
+			remove(index);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder res = new StringBuilder();
