@@ -1,5 +1,7 @@
 package com.test.array;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 public class Array {
 
 	private int[] data;
@@ -83,8 +85,8 @@ public class Array {
 			throw new IllegalArgumentException("AddLast Failed, Array is full.");
 		}
 		
-		if(index < 0 || index >= data.length){
-			throw new IndexOutOfBoundsException();
+		if(index < 0 || index >= this.size){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
 		}
 		
 		for (int i = this.size-1; i >= index; i--) {
@@ -94,5 +96,37 @@ public class Array {
 		this.size++;
 	}
 	
+	/**
+	 * 获取index索引上的值
+	 * @param index
+	 * @return
+	 */
+	public int get(int index){
+		if(index < 0 || index >= this.size){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
+		}
+		return data[index];
+	}
+	
+	public void set(int index, int e){
+		if(index < 0 || index >= this.size){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
+		}
+		data[index] = e;
+	}
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		res.append(String.format("Array: size = %d , capacity = %d\n", size, data.length));
+		res.append("[");
+		for (int i = 0; i < size; i++) {
+			res.append(data[i]);
+			if(i != size - 1){
+				res.append(", ");
+			}
+		}
+		res.append("]");
+		return res.toString();
+	}
 	
 }
