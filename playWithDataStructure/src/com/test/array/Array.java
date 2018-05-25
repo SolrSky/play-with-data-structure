@@ -1,10 +1,8 @@
 package com.test.array;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
+public class Array<E> {
 
-public class Array {
-
-	private int[] data;
+	private E[] data;
 
 	private int size;
 
@@ -13,15 +11,16 @@ public class Array {
 	 * 
 	 * @param capacity
 	 */
-	public Array(int capacity) {
-		this.data = new int[capacity];
+	@SuppressWarnings("unchecked")
+	public Array (int capacity) {
+		this.data = (E[])new Object[capacity];
 		this.size = 0;
 	}
 
 	/**
 	 * 无参构造函数，初始容量10
 	 */
-	public Array() {
+	public Array () {
 		this(10);
 	}
 
@@ -56,7 +55,7 @@ public class Array {
 	 * 在数组末尾添加
 	 * @param e
 	 */
-	public void addLast(int e) {
+	public void addLast(E e) {
 //		if (this.size == data.length) {
 //			throw new IllegalArgumentException("AddLast Failed, Array is full.");
 //		}
@@ -71,7 +70,7 @@ public class Array {
 	 * 在所有元素前添加一个元素
 	 * @param e
 	 */
-	public void addFirst(int e){
+	public void addFirst(E e){
 		addIndex(0, e);
 	}
 	
@@ -80,13 +79,15 @@ public class Array {
 	 * @param index
 	 * @param e
 	 */
-	public void addIndex(int index, int e){
-		if(this.size == data.length){
-			throw new IllegalArgumentException("AddLast Failed, Array is full.");
+	public void addIndex(int index, E e){
+		
+		
+		if(index < 0 || index >= data.length){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < length");
 		}
 		
-		if(index < 0 || index >= this.size){
-			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
+		if(this.size == data.length){
+			resize(2 * data.length);
 		}
 		
 		for (int i = this.size-1; i >= index; i--) {
@@ -101,7 +102,7 @@ public class Array {
 	 * @param index
 	 * @return
 	 */
-	public int get(int index){
+	public E get(int index){
 		if(index < 0 || index >= this.size){
 			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
 		}
@@ -113,9 +114,9 @@ public class Array {
 	 * @param index
 	 * @param e
 	 */
-	public void set(int index, int e){
+	public void set(int index, E e){
 		if(index < 0 || index >= this.size){
-			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index <= size");
 		}
 		data[index] = e;
 	}
@@ -125,8 +126,8 @@ public class Array {
 	 * @param e
 	 * @return
 	 */
-	public boolean contains(int e){
-		for (int i : data) {
+	public boolean contains(E e){
+		for (E i : data) {
 			if(i == e){
 				return true;
 			}
@@ -139,7 +140,7 @@ public class Array {
 	 * @param e
 	 * @return
 	 */
-	public int find(int e){
+	public int find(E e){
 		for (int i = 0; i < size; i++) {
 			if(data[i] == e){
 				return i;
@@ -148,19 +149,31 @@ public class Array {
 		return -1;
 	}
 	
+	public int[] findAll(E e){
+		//TODO------------------------------
+		return new int[10];
+	}
+	
 	/**
 	 * 删除某个索引上的值
 	 * @param index
 	 */
-	public int remove(int index){
+	public E remove(int index){
 		if(index < 0 || index >= this.size){
 			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < size");
 		}
-		int temp = data[index];
+		
+		E temp = data[index];
 		for (int i = index + 1; i < size; i++) {
 			data[i-1] = data[i];
 		}
 		size--;
+		data[index] = null;
+		
+		if(size == data.length / 4 && data.length /2 != 0){
+			resize(data.length / 2);
+		}
+		
 		return temp;
 	}
 	
@@ -168,7 +181,7 @@ public class Array {
 	 * 从数组中删除第一个元素
 	 * @return
 	 */
-	public int removeFirst(){
+	public E removeFirst(){
 		return remove(0);
 	}
 	
@@ -176,7 +189,7 @@ public class Array {
 	 * 从数组中删除最后一个元素
 	 * @return
 	 */
-	public int removeLast(){
+	public E removeLast(){
 		return remove(size -1);
 	}
 	
@@ -184,11 +197,27 @@ public class Array {
 	 * 从数组中删除指定元素
 	 * @param e
 	 */
-	public void removeElement(int e){
+	public void removeElement(E e){
 		int index = find(e);
 		if(index != -1){
 			remove(index);
 		}
+	}
+	
+	public void removeAllElements(int e){
+		//TODO--------------------------------
+	}
+	
+	/**
+	 * 扩容
+	 */
+	@SuppressWarnings({ "unchecked", "unused" })
+	private void resize(int newCapacity){
+		E[] newData = (E[])new Object[newCapacity];
+		for (int i = 0; i < size; i++) {
+			newData[i] = data[i];
+		}
+		this.data = newData;
 	}
 	
 	@Override
