@@ -110,6 +110,22 @@ public class Array<E> {
 	}
 	
 	/**
+	 * 获取最后一个元素
+	 * @return
+	 */
+	public E getLast(){
+		return get(getSize() -1);
+	}
+	
+	/**
+	 * 获取第一个元素
+	 * @return
+	 */
+	public E getFirst(){
+		return get(0);
+	}
+	
+	/**
 	 * 设置指定索引上的值
 	 * @param index
 	 * @param e
@@ -168,7 +184,7 @@ public class Array<E> {
 			data[i-1] = data[i];
 		}
 		size--;
-		data[index] = null;
+		data[this.size] = null;
 		
 		if(size == data.length / 4 && data.length /2 != 0){
 			resize(data.length / 2);
