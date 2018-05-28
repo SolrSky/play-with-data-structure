@@ -82,8 +82,8 @@ public class Array<E> {
 	public void addIndex(int index, E e){
 		
 		
-		if(index < 0 || index >= data.length){
-			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index < length");
+		if(index < 0 || index > size){
+			throw new IndexOutOfBoundsException("Add Failed. Require index >= 0 and index <= size");
 		}
 		
 		if(this.size == data.length){
